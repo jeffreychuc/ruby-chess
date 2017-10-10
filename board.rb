@@ -1,18 +1,6 @@
+require_relative 'piece'
 class Board
-
-  def initialize(grid = Array.new(8){ Array.new(8) })
-    @grid = grid
-    make_starting_grid
-  end
-
-  def move_piece(color, from_pos, to_pos)
-  end
-
-  def move_piece!(from_pos, to_pos)
-  end
-
-  protected
-  STARTING_POSITIONS =
+  PIECE_POS =
   {
     b:   {
       r:  [[0, 0], [0, 7]],
@@ -32,6 +20,63 @@ class Board
       q:  [[7, 3]]
     }
   }
+
+  # attr_accessor :grid
+
+  def initialize(grid = Array.new(8){ Array.new(8) })
+    @grid = grid
+    make_starting_grid
+  end
+
+  def move_piece(from_pos, to_pos) # color [color is stored as instance var in piece class]
+    raise "Invalid move, piece does not exist" if @grid[from_pos].is_a?(NullPiece)
+    curr_piece = @grid[from_pos]
+    raise "Invalid move" if !curr_piece.valid_moves.include?([from_pos, to_pos])
+    move_piece!(from_pos, to_pos)
+  end
+
+  def move_piece!(from_pos, to_pos)
+    self[from_pos], self[to_pos] = self[to_pos], self[from_pos]
+  end
+
+  def [](pos)
+    row, col = pos
+    @grid[row][col]
+  end
+
+  def []=(pos, value)
+    row, col = pos
+    @grid[row][col] = value
+  end
+
+  protected
   def make_starting_grid
+    init_piece_placement
+    fill_null_piece
+  end
+
+  def init_piece_placement
+    PIECE_POS.keys.each do |color|
+      PIECE_POS[color].keys.each do |type|
+
+        curr_type_positions = PIECE_POS[color][type]
+
+        curr_type_positions.each do |pos|
+          self[pos] = Piece.new(color, type)
+        end
+
+      end
+    end
+  end
+
+  def fill_null_piece
+    null_piece = NullPiece.new(color = nil, type = nil)
+    @grid.each_with_index do |row, i|
+      row.each_with_index do |pos, j|
+        if self[[i,j]] == nil
+          self[[i,j]] = null_piece
+        end
+      end
+    end
   end
 end
