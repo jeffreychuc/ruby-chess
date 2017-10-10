@@ -6,7 +6,7 @@ class Piece
     # :b, :w
     @color = color
     # type is also a symbol
-    # r: 
+    # r:
     # p:
     # kn:
     # b:
@@ -18,5 +18,9 @@ class Piece
 end
 
 class NullPiece < Piece
-
+  def initialize(color = nil, type = :null)
+    @color = color
+    @type = type
+    super(color, type)
+  end
 end

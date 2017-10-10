@@ -3,7 +3,7 @@ require 'colorize'
 class Board
   PIECE_POS =
   {
-    b:   {
+    black:   {
       r:  [[0, 0], [0, 7]],
       p:  [[1, 0], [1, 1], [1, 2], [1, 3], [1, 4], [1, 5], [1, 6], [1, 7]],
       kn: [[0, 1], [0, 6]],
@@ -12,7 +12,7 @@ class Board
       q:  [[0, 4]]
     },
 
-    w:  {
+    white:  {
       r:  [[7, 0], [7, 7]],
       p:  [[6, 0], [6, 1], [6, 2], [6, 3], [6, 4], [6, 5], [6, 6], [6, 7]],
       kn: [[7, 1], [7, 6]],
@@ -24,7 +24,7 @@ class Board
 
   # attr_accessor :grid
     attr_reader :grid
-    
+
   def initialize(grid = Array.new(8){ Array.new(8) })
     @grid = grid
     make_starting_grid
@@ -72,7 +72,7 @@ class Board
   end
 
   def fill_null_piece
-    null_piece = NullPiece.new(color = nil, type = nil)
+    null_piece = NullPiece.new(color = nil, type = :null)
     @grid.each_with_index do |row, i|
       row.each_with_index do |pos, j|
         if self[[i,j]] == nil
