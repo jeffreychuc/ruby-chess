@@ -1,4 +1,5 @@
 require_relative 'piece'
+require 'colorize'
 class Board
   PIECE_POS =
   {
@@ -22,7 +23,8 @@ class Board
   }
 
   # attr_accessor :grid
-
+    attr_reader :grid
+    
   def initialize(grid = Array.new(8){ Array.new(8) })
     @grid = grid
     make_starting_grid
@@ -30,7 +32,7 @@ class Board
 
   def move_piece(from_pos, to_pos) # color [color is stored as instance var in piece class]
     raise "Invalid move, piece does not exist" if @grid[from_pos].is_a?(NullPiece)
-    curr_piece = @grid[from_pos]
+    curr_piece = self[from_pos]
     raise "Invalid move" if !curr_piece.valid_moves.include?([from_pos, to_pos])
     move_piece!(from_pos, to_pos)
   end
