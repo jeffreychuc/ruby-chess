@@ -59,12 +59,13 @@ class Board
 
   def init_piece_placement
     PIECE_POS.keys.each do |color|
-      PIECE_POS[color].keys.each do |type|
+      PIECE_POS[color].keys.each do |symbol|
 
-        curr_type_positions = PIECE_POS[color][type]
+        curr_type_positions = PIECE_POS[color][symbol]
 
         curr_type_positions.each do |pos|
-          self[pos] = Piece.new(color, type)
+          # self[pos] = Piece.new(color, symbol, board = self)
+          self[pos] = QueenPiece.new(color, symbol, board = self, pos)
         end
 
       end
@@ -72,7 +73,7 @@ class Board
   end
 
   def fill_null_piece
-    null_piece = NullPiece.new(color = nil, type = :null)
+    null_piece = NullPiece.new(color = nil, symbol = :null, board = self)
     @grid.each_with_index do |row, i|
       row.each_with_index do |pos, j|
         if self[[i,j]] == nil

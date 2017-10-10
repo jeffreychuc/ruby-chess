@@ -2,7 +2,8 @@ require_relative 'cursor'
 require_relative 'board'
 require 'colorized'
 class Display
-  attr_reader :cursor
+
+  attr_reader :cursor, :board
   PIECE_HASH = {
     r: '♜',
     p: '♟',
@@ -31,7 +32,7 @@ class Display
           end
         else
           piece = @board[[x,y]]
-          print "#{PIECE_HASH[piece.type].colorize(piece.color)} "
+          print "#{PIECE_HASH[piece.symbol].colorize(piece.color)} "
         end
       end
       print "\n"
@@ -39,12 +40,15 @@ class Display
   end
 end
 
-display = Display.new
-system("clear")
-until 2 < 1
-  display.render
-  display.cursor.get_input
-  system("clear")
-end
+# display = Display.new
+# system("clear")
+# until 2 < 1
+#   display.render
+#   display.cursor.get_input
+#   system("clear")
+# end
+#
+# display.board
 
-display.board
+d = Display.new
+q = d.board.grid[0][0]

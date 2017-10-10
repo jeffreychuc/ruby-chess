@@ -1,7 +1,9 @@
-class Piece
-  attr_reader :color, :type
+require_relative 'movement_modules'
 
-  def initialize(color, type)
+class Piece
+  attr_reader :color, :symbol, :board
+
+  def initialize(color, symbol, board, pos)
     # color is stored as a symbol
     # :b, :w
     @color = color
@@ -12,15 +14,47 @@ class Piece
     # b:
     # k:
     # q:
-    @type = type
+    @symbol = symbol
+    @board = board
+    @pos = pos
   end
 
 end
 
 class NullPiece < Piece
-  def initialize(color = nil, type = :null)
+  def initialize(color = nil, symbol = :null, board)
     @color = color
-    @type = type
-    super(color, type)
+    @symbol = symbol
+    @board = board
+    super(color, symbol, board)
   end
+end
+
+class KingPiece < Piece
+  include Stepable
+end
+
+class KnightPiece < Piece
+  include Stepable
+end
+
+class BishopPiece < Piece
+  include Slideable
+  def move_dirs
+    diagonal_dirs
+  end
+end
+
+class RookPiece < Piece
+  include Slideable
+  def move_dirs
+    horizontal_dirs
+  end
+end
+
+class QueenPiece < Piece
+  include Slideable
+end
+
+class PawnPiece < Piece
 end
