@@ -73,7 +73,7 @@ class Board
   end
 
   def fill_null_piece
-    null_piece = NullPiece.new(color = nil, symbol = :null, board = self)
+    null_piece = NullPiece.instance
     @grid.each_with_index do |row, i|
       row.each_with_index do |pos, j|
         if self[[i,j]] == nil

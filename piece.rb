@@ -1,5 +1,5 @@
 require_relative 'movement_modules'
-
+require 'singleton'
 class Piece
   attr_reader :color, :symbol, :board
 
@@ -22,20 +22,29 @@ class Piece
 end
 
 class NullPiece < Piece
-  def initialize(color = nil, symbol = :null, board)
-    @color = color
-    @symbol = symbol
-    @board = board
-    super(color, symbol, board)
+  include Singleton
+
+  def initialize
+    @color = nil
+    @symbol = :null
+    @board = nil
+    @pos = nil
+    
   end
 end
 
 class KingPiece < Piece
   include Stepable
+  def move_dirs
+    diagonal_dirs + horizontal_dirs
+  end
 end
 
 class KnightPiece < Piece
   include Stepable
+  def move_dirs
+    knight_dirs
+  end
 end
 
 class BishopPiece < Piece
@@ -54,6 +63,9 @@ end
 
 class QueenPiece < Piece
   include Slideable
+  def move_dirs
+    diagonal_dirs + horizontal_dirs
+  end
 end
 
 class PawnPiece < Piece

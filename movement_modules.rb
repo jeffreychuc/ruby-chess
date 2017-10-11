@@ -19,10 +19,6 @@ module Slideable
      [0, -1]]
   end
 
-  def move_dirs
-    diagonal_dirs + horizontal_dirs
-  end
-
   def grow_unblocked_moves_in_dir(pos)
     fin_moves = []
     move_dirs.each do |delta|
@@ -75,9 +71,18 @@ module Stepable
      [0, -1]]
   end
 
+  def knight_dirs
+    [[1, 2],
+     [2, 1],
+     [-1, 2],
+     [-2, 1],
+     [-1, -2],
+     [-2, -1]]
+  end
+
 
   def move_diffs
-    directions = diagonal_dirs + horizontal_dirs
+    directions = move_dirs
     output = []
     directions.each do |delta|
       temp = [@pos[0] + delta[0], @pos[1] + delta[1]]
