@@ -29,7 +29,7 @@ class NullPiece < Piece
     @symbol = :null
     @board = nil
     @pos = nil
-    
+
   end
 end
 
@@ -69,4 +69,34 @@ class QueenPiece < Piece
 end
 
 class PawnPiece < Piece
+  def moves
+    side_attacks
+  end
+
+  protected
+  def at_start_row?
+    #depends on color
+    curr_row = @pos[1]
+    # color and actual start row
+    if @color == :white && curr_row == 1
+      return true
+    elsif @color == :black && curr_row == 6
+      return true
+    end
+    false
+  end
+
+  def forward_direction
+    return [0, 1] if @color == :white
+    [0, -1]
+  end
+
+  def forward_steps
+    return 2 if at_start_row?
+    1
+  end
+
+  def side_attacks
+
+  end
 end
